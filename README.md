@@ -1,12 +1,15 @@
-# teensyMIDIcontroller
+# Simple teensy USB MIDI-CC Controller
 10 pontentiometers and 10 digital buttons sending MIDI CC messages over USB
 This is a easy way of using all ports avalible on the teensy 2.0
+Other teensy boards shoudl work with this code but changes might have to be made
 
 This project uses the MIDI controller library: 
-  https://www.pjrc.com/teensy/td_midi.html
-  https://github.com/joshnishikawa/MIDIcontroller
+  * https://www.pjrc.com/teensy/td_midi.html
+  * https://github.com/joshnishikawa/MIDIcontroller
+  
   
   additional functions can be used to send MIDI via USB:
+  ```
     usbMIDI.sendNoteOn(note, velocity, channel);
     usbMIDI.sendNoteOff(note, velocity, channel);
     usbMIDI.sendAfterTouchPoly(note, pressure, channel);
@@ -25,3 +28,4 @@ This project uses the MIDI controller library:
     usbMIDI.sendRealTime(usbMIDI.Stop);
     usbMIDI.sendRealTime(usbMIDI.ActiveSensing);
     usbMIDI.sendRealTime(usbMIDI.SystemReset);
+```
