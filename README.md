@@ -1,7 +1,11 @@
 # Simple teensy USB MIDI-CC Controller
 10 pontentiometers and 10 digital buttons sending MIDI CC messages over USB
 This is a easy way of using all ports avalible on the teensy 2.0
-Other teensy boards shoudl work with this code but changes might have to be made
+Other teensy boards should work with this code but changes might have to be made
+
+i Used the ResponsiveAnalogRead-library to smoothen out the analog input
+* https://github.com/dxinteractive/ResponsiveAnalogRead
+
 
 This project uses the MIDI controller library: 
   * https://www.pjrc.com/teensy/td_midi.html
