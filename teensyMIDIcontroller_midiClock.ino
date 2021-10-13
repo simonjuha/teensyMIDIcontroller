@@ -50,15 +50,11 @@ elapsedMillis newTick;
 elapsedMillis deltaTick;
 // main loom time
 elapsedMillis midiCount;
+static unsigned char measure_counts = 2;
 
 void setup() {
   // attach interrupt
   attachInterrupt(PIN_D1, sync_ISR, FALLING );
-  
-
-
-  
-  
   // for loop for each digital pin
   // internal pullup resistor is activated for each pin
   for (int i = 0; i <= 9; i++) {
@@ -101,36 +97,35 @@ void loop() {
       ccLastD[i] = ccCurrent;
     }
   }
-  //Timer1.setPeriod(bmp_time);
 
   if(midiCount >= delta_mean)
     {
       usbMIDI.sendRealTime(usbMIDI.Clock);
       midiCount = 0;
     }
-    
-    delay(2);
 }
 
 void sync_ISR()
 {
-  deltaTick = (lastTick - newTick);
-  lastTick = newTick;
   newTick = 0;
-  if (lastTick > 10000){delta_count = 0;} // if more than 10 sec since last tap
+  deltaTick = (lastTick - newTick);
+  if (deltaTick < 100){return;} // debounce
+  lastTick = newTick;
+  
+  if (lastTick > 8000){delta_count = 0;} // if more than 8 sec since last tap
   delta_samples[delta_count] = deltaTick; // save in array
   delta_count++;
-  if (delta_count > 3)
+  if (delta_count >= measure_counts)
     {
       delta_count = 0; // reset
       unsigned int temp = 0;
-      for(int i=0;i<3;i++)
+      for(int i=0;i<=measure_counts;i++)
       {
         temp += delta_samples[i]; // average of 4 counts
       }
-    
-      delta_mean = temp/48;
+      
+      delta_mean = (temp/measure_counts)/24;
+      
     }
- delay(100); // for debounce
 
 }
